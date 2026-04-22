@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  backend:
+    image: python:3.11-slim
+    working_dir: /app
+    volumes:
+      - ./:/app
+      - suraksha_data:/data
+    environment:
+      SQLITE_DB_PATH: /data/suraksha.db
+      SURAKSHA_API_KEY: dev-api-key
+      APP_ENV: production
+      CORS_ORIGINS: http://localhost:8000
+      ENCRYPTION_KEY: MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY=
+    command: bash -lc "pip install --no-cache-dir -r requirements.txt && uvicorn backend.main:app --host 0.0.0.0 --port 8000"
+    ports:
+      - "8000:8000"
+
+volumes:
+  suraksha_data:
