@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SURAKSHA Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/frontend/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">SURAKSHA • Secure Rural Banking</p>
+        <h1>Admin & Operations Console</h1>
+        <p class="subtitle">Risk-aware authentication, transaction screening, and audit visibility in one place.</p>
+      </div>
+      <div class="health-chip" id="health-chip">Checking backend…</div>
+    </header>
+
+    <section class="card security-bar">
+      <div>
+        <h2>API Access</h2>
+        <p>Enter your API key once; requests will use it automatically.</p>
+      </div>
+      <div class="api-key-row">
+        <input id="api-key" placeholder="X-API-Key (default: dev-api-key)" />
+        <button id="save-key-btn" type="button">Save Key</button>
+      </div>
+    </section>
+
+    <section class="kpi-grid">
+      <article class="kpi-card">
+        <p>Total Txns</p>
+        <h3 id="kpi-total">0</h3>
+      </article>
+      <article class="kpi-card">
+        <p>Flagged</p>
+        <h3 id="kpi-flagged">0</h3>
+      </article>
+      <article class="kpi-card">
+        <p>Blocked</p>
+        <h3 id="kpi-blocked">0</h3>
+      </article>
+      <article class="kpi-card">
+        <p>Audit Entries</p>
+        <h3 id="kpi-chain">0</h3>
+      </article>
+    </section>
+
+    <section class="panel-grid">
+      <article class="card">
+        <div class="card-head">
+          <h2>AMFA Risk Scoring</h2>
+          <span class="pill">Auth</span>
+        </div>
+        <form id="risk-form" class="form-grid">
+          <label>User ID<input name="user_id" placeholder="user_001" required /></label>
+          <label>Amount<input name="amount" type="number" step="0.01" placeholder="1200" required /></label>
+          <label>Device Trust (0-1)<input name="device_trust" type="number" step="0.01" min="0" max="1" required /></label>
+          <label>Network Risk (0-1)<input name="network_risk" type="number" step="0.01" min="0" max="1" required /></label>
+          <button type="submit" class="primary">Compute Risk</button>
+        </form>
+        <pre id="risk-output" class="output"></pre>
+      </article>
+
+
+      <article class="card">
+        <div class="card-head">
+          <h2>Behaviour Biometrics Check</h2>
+          <span class="pill">Isolation+Autoencoder</span>
+        </div>
+        <form id="behaviour-form" class="form-grid">
+          <label>Session features (comma-separated 0-1)
+            <input name="features" placeholder="0.3,0.5,0.4,0.6" required />
+          </label>
+          <button type="submit" class="primary">Compute Trust Score</button>
+        </form>
+        <pre id="behaviour-output" class="output"></pre>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h2>Transaction Decision Engine</h2>
+          <span class="pill">Fraud + Policy</span>
+        </div>
+        <form id="txn-form" class="form-grid">
+          <label>User ID<input name="user_id" placeholder="user_001" required /></label>
+          <label>Transaction ID<input name="txn_id" placeholder="txn-1001" required /></label>
+          <label>To Account<input name="to_account" placeholder="ACC12345" required /></label>
+          <label>Amount<input name="amount" type="number" step="0.01" required /></label>
+          <label>Device Trust (0-1)<input name="device_trust" type="number" step="0.01" min="0" max="1" required /></label>
+          <label>Network Risk (0-1)<input name="network_risk" type="number" step="0.01" min="0" max="1" required /></label>
+          <button type="submit" class="primary">Process Transaction</button>
+        </form>
+        <pre id="txn-output" class="output"></pre>
+      </article>
+    </section>
+
+
+    <section class="panel-grid">
+      <article class="card">
+        <div class="card-head">
+          <h2>Helpdesk Assistant</h2>
+          <span class="pill">NLP Agent</span>
+        </div>
+        <form id="helpdesk-form" class="form-grid">
+          <label>Language
+            <select name="language"><option value="en">English</option><option value="hi">Hindi</option><option value="od">Odia</option></select>
+          </label>
+          <label>Message<input name="message" placeholder="Someone asked for OTP" required /></label>
+          <button type="submit" class="primary">Get Guidance</button>
+        </form>
+        <pre id="helpdesk-output" class="output"></pre>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h2>Daily Report & Audit Query</h2>
+          <button id="report-btn" type="button">Generate Report</button>
+        </div>
+        <form id="audit-query-form" class="form-grid">
+          <label>Search audit log<input name="query" placeholder="block" required /></label>
+          <button type="submit" class="primary">Run Audit Query</button>
+        </form>
+        <pre id="report-output" class="output"></pre>
+        <pre id="audit-query-output" class="output"></pre>
+      </article>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <h2>Operational Summary</h2>
+        <button id="summary-btn" type="button">Refresh</button>
+      </div>
+      <pre id="summary-output" class="output"></pre>
+    </section>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+  <script src="/frontend/app.js"></script>
+</body>
+</html>

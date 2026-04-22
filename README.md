@@ -229,6 +229,48 @@ suraksha/
 
 ---
 
+
+## Current Prototype Status
+
+The repository now includes a working FastAPI backend plus a lightweight browser UI (`frontend/index.html`) served by the backend at `/`.
+
+Implemented flows:
+- Risk scoring: `POST /api/auth/risk`
+- Behavioural biometrics profiling: `POST /api/auth/behaviour`
+- Transaction processing (risk + fraud + nonce replay protection + audit log): `POST /api/transactions/process`
+- Admin summary/report/audit query: `GET /api/admin/summary`, `GET /api/admin/report`, `POST /api/admin/audit/query`
+- Helpdesk assistant: `POST /api/helpdesk/chat`
+
+Implemented local agents:
+- Risk Orchestrator Agent
+- Fraud Reasoning Agent
+- NLP Helpdesk Agent
+- Report Digest Agent
+- Education Agent
+- Audit Query Agent
+
+Implemented local ML/DL/NLP model components:
+- Logistic-style risk model
+- LSTM-style sequence anomaly scorer
+- Random-forest-style validation logic
+- Isolation-forest-style behavioural anomaly score
+- Autoencoder-style reconstruction error
+- Intent classifier, NER extractor, sentiment analyser, incident text classifier
+
+## Production Deployment Baseline
+
+This version includes:
+- AES-256-GCM payload encryption
+- ECDSA signing + verification
+- API key guard for `/api/*` endpoints
+- SQLite-backed persistence for nonces, audit chain, and metrics
+
+Before deploy:
+1. Set a strong `SURAKSHA_API_KEY`
+2. Replace ECDSA keys in env with your own
+3. Set `ENCRYPTION_KEY` to a secure base64-encoded 32-byte key
+4. Restrict `CORS_ORIGINS` to trusted domains only
+
 ## Getting Started
 
 ### Prerequisites
@@ -257,9 +299,8 @@ docker-compose up --build
 # Or run manually:
 
 # Backend
-cd backend
 pip install -r requirements.txt
-uvicorn main:app --reload
+uvicorn backend.main:app --reload
 
 # Frontend
 cd frontend
